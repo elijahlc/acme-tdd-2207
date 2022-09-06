@@ -34,6 +34,14 @@ const Product = conn.define('product', {
   }
 });
 
+Product.findAllWithoutCategory = function(){
+  return this.findAll({
+    where: {
+      categoryId: null
+    }
+  });
+};
+
 Product.belongsTo(Category);
 Category.hasMany(Product);
 
