@@ -1,10 +1,15 @@
 const express = require('express');
 const app = express();
 const { Category, Product } = require('./db');
+const path = require('path');
 
 module.exports = app;
 
 app.use(express.json());
+app.use('/dist', express.static('dist'));
+
+app.get('/', (req, res)=> res.sendFile(path.join(__dirname, 'index.html')));
+
 
 app.get('/api/categories', async(req, res, next)=> {
   try {

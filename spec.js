@@ -1,22 +1,10 @@
 const { expect } = require('chai');
-const { conn, Category, Product } = require('./db');
+const { conn, Category, Product, seedData } = require('./db');
 const app = require('supertest')(require('./app'));
 
 beforeEach(async()=> {
   await conn.sync({ force: true });
-  const [ fooCat, barCat, bazzCat ] = await Promise.all([
-    Category.create({ name: 'foo category'}),
-    Category.create({ name: 'bar category'}),
-    Category.create({ name: 'bazz category'}),
-  ]);
-  await Promise.all([
-    Product.create({ name: 'foo 1', categoryId: fooCat.id }),
-    Product.create({ name: 'foo 2', categoryId: fooCat.id }),
-    Product.create({ name: 'bar 1', categoryId: barCat.id }),
-    Product.create({ name: 'bar 2', categoryId: barCat.id }),
-    Product.create({ name: 'bar 3', categoryId: barCat.id }),
-    Product.create({ name: 'quq 1' })
-  ]);
+  await seedData();
 });
 
 describe('Models', ()=> {

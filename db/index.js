@@ -42,11 +42,28 @@ Product.findAllWithoutCategory = function(){
   });
 };
 
+const seedData = async()=> {
+  const [ fooCat, barCat, bazzCat ] = await Promise.all([
+    Category.create({ name: 'foo category'}),
+    Category.create({ name: 'bar category'}),
+    Category.create({ name: 'bazz category'}),
+  ]);
+  await Promise.all([
+    Product.create({ name: 'foo 1', categoryId: fooCat.id }),
+    Product.create({ name: 'foo 2', categoryId: fooCat.id }),
+    Product.create({ name: 'bar 1', categoryId: barCat.id }),
+    Product.create({ name: 'bar 2', categoryId: barCat.id }),
+    Product.create({ name: 'bar 3', categoryId: barCat.id }),
+    Product.create({ name: 'quq 1' })
+  ]);
+};
+
 Product.belongsTo(Category);
 Category.hasMany(Product);
 
 module.exports = {
   conn,
   Category,
-  Product
+  Product,
+  seedData
 };
